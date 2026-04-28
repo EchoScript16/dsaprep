@@ -67,8 +67,11 @@ router.post('/register', [
       user: formatUser(user),
     });
   } catch (err) {
-    console.error('Register error:', err);
-    res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+    console.error('Register error FULL:', err);
+    res.status(500).json({
+    success: false,
+    message: err.message
+  });
   }
 });
 
@@ -101,8 +104,11 @@ router.post('/login', [
     const token = signToken(user);
     res.json({ success: true, token, user: formatUser(user) });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error.' });
+    console.error('Login error FULL:', err);
+    res.status(500).json({
+    success: false,
+    message: err.message
+  });
   }
 });
 
