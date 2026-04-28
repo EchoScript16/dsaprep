@@ -11,6 +11,10 @@ const { pool } = require('./db');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 // ── Serve frontend static files ──────────────────────────────────
 // This tells Express to serve index.html, style.css, app.js etc.
 app.use(express.static(path.join(__dirname)));
@@ -51,7 +55,7 @@ app.get('/health', async (req, res) => {
 // ── API Routes ───────────────────────────────────────────────────
 app.use('/api/auth',        require('./routes/auth'));
 app.use('/api/problems',    require('./routes/problems'));
-app.use('/api/progress',    require('./routes/progress'));   // FIXED: was ./progress
+app.use('/api/progress',    require('./routes/progress'));   
 app.use('/api/leaderboard', require('./routes/leaderboard'));
 app.use('/api/discussions', require('./routes/discussions'));
 

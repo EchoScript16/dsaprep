@@ -4,7 +4,7 @@
 // Fix: showProfileMenu added
 // ================================================================
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://dsaprep-backend.onrender.com';
 
 // ── Token management ─────────────────────────────────────────────
 const getToken    = () => localStorage.getItem('dsa_token');
@@ -33,7 +33,7 @@ async function apiFetch(endpoint, options = {}) {
     return data;
   } catch (err) {
     if (err.name === 'TypeError' && err.message.includes('fetch')) {
-      throw new Error('Cannot connect to server. Make sure backend is running on port 5000.');
+      throw new Error('Cannot connect to server. Please try again.');
     }
     throw err;
   }
@@ -48,29 +48,29 @@ const api = {
 
 // ── API modules ──────────────────────────────────────────────────
 const Auth = {
-  register:      (data) => api.post('/auth/register', data),
-  login:         (data) => api.post('/auth/login', data),
-  me:            ()     => api.get('/auth/me'),
-  updateProfile: (data) => api.put('/auth/profile', data),
+ register: (data) => api.post('/api/auth/register', data),
+  login:    (data) => api.post('/api/auth/login', data),
+  me:       ()     => api.get('/api/auth/me'),
+  updateProfile: (data) => api.put('/api/auth/profile', data),
 };
 const ProblemsAPI = {
-  list:   (params = {}) => api.get(`/problems?${new URLSearchParams(params)}`),
-  detail: (slug)        => api.get(`/problems/${slug}`),
-  topics: ()            => api.get('/problems/topics/summary'),
+  list:   (params = {}) => api.get(`/api/problems?${new URLSearchParams(params)}`),
+  detail: (slug)        => api.get(`/api/problems/${slug}`),
+  topics: ()            => api.get('/api/problems/topics/summary'),
 };
 const ProgressAPI = {
-  submit:      (data)      => api.post('/progress/submit', data),
-  dashboard:   ()          => api.get('/progress/dashboard'),
-  submissions: (params={}) => api.get(`/progress/submissions?${new URLSearchParams(params)}`),
-  getNote:     (id)        => api.get(`/progress/notes/${id}`),
-  saveNote:    (id, c)     => api.put(`/progress/notes/${id}`, { content: c }),
+  submit:      (data)      => api.post('/api/progress/submit', data),
+  dashboard:   ()          => api.get('/api/progress/dashboard'),
+  submissions: (params={}) => api.get(`/api/progress/submissions?${new URLSearchParams(params)}`),
+  getNote:     (id)        => api.get(`/api/progress/notes/${id}`),
+  saveNote:    (id, c)     => api.put(`/api/progress/notes/${id}`, { content: c }),
 };
 const LeaderboardAPI = {
-  global: (params={}) => api.get(`/leaderboard?${new URLSearchParams(params)}`),
+  global: (params={}) => api.get(`/api/leaderboard?${new URLSearchParams(params)}`),
 };
 const Execute = {
   run: (sourceCode, languageId, stdin = '') =>
-    api.post('/execute', { source_code: sourceCode, language_id: languageId, stdin }),
+    api.post('/api/execute', { source_code: sourceCode, language_id: languageId, stdin }),
 };
 const LANG_IDS = { python: 71, cpp: 54, java: 62, c: 50, javascript: 63 };
 
