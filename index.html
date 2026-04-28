@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSAPrep — Free DSA Platform for Placements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">DSA<span>Prep</span></div>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-btn" data-page="roadmap"    onclick="showPage('roadmap')">📚 Roadmap</button>
+    <button class="nav-btn" data-page="practice"   onclick="showPage('practice')">💻 Practice</button>
+    <button class="nav-btn" data-page="compiler"   onclick="showPage('compiler')">⚙️ Compiler</button>
+    <button class="nav-btn" data-page="visualizer" onclick="showPage('visualizer')">🧩 Visualizer</button>
+    <button class="nav-btn" data-page="interview"  onclick="showPage('interview')">🎤 Interview</button>
+    <button class="nav-btn" data-page="progress"   onclick="showPage('progress')">📊 Progress</button>
+  </div>
+  <div class="nav-search-wrap">
+    <span class="nav-search-icon">🔍</span>
+    <input class="nav-search" type="text" id="global-search" placeholder="Search problems…"
+           autocomplete="off" oninput="handleSearch(this.value)" onblur="setTimeout(closeSearch,200)">
+    <div id="search-results-dropdown"></div>
+  </div>
+  <div class="nav-right">
+    <div class="streak-pill">🔥 <span id="nav-streak">0</span></div>
+    <div class="points-pill">⭐ <span id="nav-points">0</span></div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">☰</button>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-badge"><span class="pulse-dot"></span>100% Free · No Login Required · Python-first</div>
+    <h1>Master DSA.<br><em>Crack placements.</em></h1>
+    <p class="hero-sub">Structured roadmap, 200+ problems, online compiler, step-by-step hints, algorithm visualizer & mock interviews — all free, built for Indian students.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="showPage('roadmap')">📚 Start Learning</button>
+      <button class="btn-secondary" onclick="showPage('practice')">💻 Practice Problems</button>
+      <button class="btn-outline" onclick="showPage('compiler')">⚙️ Try Compiler</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n" id="hs-solved">0</div><div class="hstat-l">Problems solved</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-n">200+</div><div class="hstat-l">Practice problems</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">Topics covered</div></div>
+      <div class="hstat-div"></div>
+      <div class="hstat"><div class="hstat-n" id="hs-streak">0🔥</div><div class="hstat-l">Day streak</div></div>
+    </div>
+  </section>
+
+  <section class="features-grid">
+    <div class="feat-card fc-1" onclick="showPage('roadmap')">
+      <div class="feat-icon-wrap"><span class="feat-icon">📚</span></div>
+      <h3>Structured Roadmap</h3>
+      <p>8-week plan from arrays to DP. Company-specific paths for TCS, Amazon, Google & more.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+    <div class="feat-card fc-2" onclick="showPage('practice')">
+      <div class="feat-icon-wrap"><span class="feat-icon">💻</span></div>
+      <h3>200+ Problems</h3>
+      <p>Filter by topic, company, difficulty. Step-by-step AI hints. Track your progress.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+    <div class="feat-card fc-3" onclick="showPage('compiler')">
+      <div class="feat-icon-wrap"><span class="feat-icon">⚙️</span></div>
+      <h3>Online Compiler</h3>
+      <p>Write & run C, C++, Java, Python, JavaScript with custom input and instant feedback.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+    <div class="feat-card fc-4" onclick="showPage('visualizer')">
+      <div class="feat-icon-wrap"><span class="feat-icon">🧩</span></div>
+      <h3>DSA Visualizer</h3>
+      <p>Watch sorting, tree traversal, BFS/DFS and binary search animate step by step.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+    <div class="feat-card fc-5" onclick="showPage('interview')">
+      <div class="feat-icon-wrap"><span class="feat-icon">🎤</span></div>
+      <h3>Interview Prep</h3>
+      <p>HR questions, system design basics, resume tips and timed mock coding interviews.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+    <div class="feat-card fc-6" onclick="showPage('progress')">
+      <div class="feat-icon-wrap"><span class="feat-icon">📊</span></div>
+      <h3>Progress Dashboard</h3>
+      <p>Streak calendar, topic breakdown, badges, leaderboard & personalized study plan.</p>
+      <div class="feat-arrow">→</div>
+    </div>
+  </section>
+
+  <section class="daily-section">
+    <div class="daily-header">
+      <div>
+        <div class="section-tag">Today's Challenge</div>
+        <h2>Daily Problem</h2>
+      </div>
+      <div class="daily-meta" id="daily-meta"></div>
+    </div>
+    <div class="daily-card" id="daily-card"></div>
+  </section>
+</div>
+
+<!-- ═══ ROADMAP ═══ -->
+<div id="page-roadmap" class="page">
+  <div class="page-header">
+    <div class="section-tag">Learning Path</div>
+    <h2>Structured Roadmap</h2>
+    <p>Follow the 8-week plan or pick a company-specific path tailored to your target.</p>
+  </div>
+  <div class="path-tabs">
+    <button class="path-tab active" onclick="switchPath('full',this)">📅 Full 8-Week</button>
+    <button class="path-tab" onclick="switchPath('tcs',this)">TCS</button>
+    <button class="path-tab" onclick="switchPath('amazon',this)">Amazon</button>
+    <button class="path-tab" onclick="switchPath('google',this)">Google</button>
+    <button class="path-tab" onclick="switchPath('infosys',this)">Infosys</button>
+  </div>
+  <div id="roadmap-content"></div>
+</div>
+
+<!-- ═══ PRACTICE ═══ -->
+<div id="page-practice" class="page">
+  <div class="page-header">
+    <div class="section-tag">Problem Bank</div>
+    <h2>Practice Problems</h2>
+    <p>200+ curated problems. Filter by topic, company or difficulty. Click any problem to solve it.</p>
+  </div>
+  <div class="filter-row">
+    <div class="filter-group" id="topic-filters"></div>
+    <div class="filter-group" id="diff-filters">
+      <button class="filter-btn active" onclick="setFilter('diff','all',this)">All</button>
+      <button class="filter-btn easy"   onclick="setFilter('diff','easy',this)">🟢 Easy</button>
+      <button class="filter-btn med"    onclick="setFilter('diff','medium',this)">🟡 Medium</button>
+      <button class="filter-btn hard"   onclick="setFilter('diff','hard',this)">🔴 Hard</button>
+    </div>
+    <div class="filter-group" id="co-filters">
+      <button class="filter-btn active" onclick="setFilter('co','all',this)">All Companies</button>
+      <button class="filter-btn" onclick="setFilter('co','tcs',this)">TCS</button>
+      <button class="filter-btn" onclick="setFilter('co','infosys',this)">Infosys</button>
+      <button class="filter-btn" onclick="setFilter('co','wipro',this)">Wipro</button>
+      <button class="filter-btn" onclick="setFilter('co','amazon',this)">Amazon</button>
+      <button class="filter-btn" onclick="setFilter('co','microsoft',this)">Microsoft</button>
+      <button class="filter-btn" onclick="setFilter('co','google',this)">Google</button>
+    </div>
+  </div>
+  <div id="problem-list"></div>
+</div>
+
+<!-- ═══ PROBLEM DETAIL ═══ -->
+<div id="page-problem" class="page">
+  <div class="prob-detail-layout">
+    <div class="prob-left">
+      <button class="back-btn" onclick="showPage('practice')">← Back to Problems</button>
+      <div id="prob-detail-content"></div>
+      <div class="hint-section">
+        <div class="hint-header">
+          <span class="hint-title">🤖 AI Hints</span>
+          <span class="hint-note">Step-by-step — no spoilers</span>
+        </div>
+        <div id="hint-boxes"></div>
+        <button class="hint-btn" onclick="showNextHint()">Show Next Hint →</button>
+      </div>
+      <div class="notes-section">
+        <div class="notes-header">📝 My Notes</div>
+        <textarea id="prob-notes" placeholder="Write your approach, time complexity, edge cases…"></textarea>
+        <button class="save-note-btn" onclick="saveNote()">Save Note</button>
+      </div>
+    </div>
+    <div class="prob-right">
+      <div class="editor-header">
+        <select id="lang-select" onchange="changeLang()">
+          <option value="python">🐍 Python</option>
+          <option value="cpp">⚡ C++</option>
+          <option value="java">☕ Java</option>
+          <option value="c">🔧 C</option>
+          <option value="javascript">🌐 JavaScript</option>
+        </select>
+        <div style="display:flex;gap:.5rem;margin-left:auto">
+          <button class="run-btn"    onclick="runCode()">▶ Run</button>
+          <button class="submit-btn" onclick="submitCode()">Submit →</button>
+        </div>
+      </div>
+      <textarea id="code-editor" class="code-area" spellcheck="false"></textarea>
+      <div class="output-area" id="code-output">
+        <div class="output-placeholder">Output will appear here after running your code…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COMPILER ═══ -->
+<div id="page-compiler" class="page">
+  <div class="page-header">
+    <div class="section-tag">Online IDE</div>
+    <h2>Code Compiler</h2>
+    <p>Write and run code in 5 languages. Supports custom input and instant output.</p>
+  </div>
+  <div class="compiler-layout">
+    <div class="compiler-left">
+      <div class="editor-toolbar">
+        <select id="compiler-lang" onchange="setCompilerTemplate()">
+          <option value="python">🐍 Python 3</option>
+          <option value="cpp">⚡ C++17</option>
+          <option value="java">☕ Java 13</option>
+          <option value="c">🔧 C</option>
+          <option value="javascript">🌐 JavaScript</option>
+        </select>
+        <div class="toolbar-btns">
+          <button onclick="clearCompiler()">🗑 Clear</button>
+          <button onclick="copyCode()">📋 Copy</button>
+          <button class="run-btn" onclick="runCompilerCode()">▶ Run</button>
+        </div>
+      </div>
+      <textarea id="compiler-editor" class="code-area big" spellcheck="false"></textarea>
+    </div>
+    <div class="compiler-right">
+      <div class="io-section">
+        <label class="io-label">Custom Input (stdin)</label>
+        <textarea id="compiler-input" class="io-area" placeholder="Enter test input here…"></textarea>
+      </div>
+      <div class="io-section">
+        <label class="io-label">Output</label>
+        <div id="compiler-output" class="io-area output-display">Run your code to see output…</div>
+      </div>
+      <div class="complexity-box">
+        <div class="comp-title">💡 Quick Reference</div>
+        <div class="comp-body" id="comp-ref"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ VISUALIZER ═══ -->
+<div id="page-visualizer" class="page">
+  <div class="page-header">
+    <div class="section-tag">DSA Animations</div>
+    <h2>Algorithm Visualizer</h2>
+    <p>Watch algorithms execute step by step. Click nodes and control the speed.</p>
+  </div>
+  <div class="viz-tabs">
+    <button class="viz-tab active" onclick="switchViz('sorting',this)">📊 Sorting</button>
+    <button class="viz-tab" onclick="switchViz('tree',this)">🌳 Tree Traversal</button>
+    <button class="viz-tab" onclick="switchViz('graph',this)">🕸 Graph BFS/DFS</button>
+    <button class="viz-tab" onclick="switchViz('search',this)">🔍 Binary Search</button>
+  </div>
+  <div id="viz-container"></div>
+</div>
+
+<!-- ═══ INTERVIEW ═══ -->
+<div id="page-interview" class="page">
+  <div class="page-header">
+    <div class="section-tag">Interview Prep</div>
+    <h2>Placement Preparation</h2>
+    <p>HR questions, system design, resume tips, company Q&A and mock interviews.</p>
+  </div>
+  <div class="interview-tabs">
+    <button class="itab active" onclick="switchInterview('hr',this)">🎤 HR Questions</button>
+    <button class="itab" onclick="switchInterview('system',this)">🏗 System Design</button>
+    <button class="itab" onclick="switchInterview('resume',this)">📄 Resume Tips</button>
+    <button class="itab" onclick="switchInterview('mock',this)">⏱ Mock Interview</button>
+    <button class="itab" onclick="switchInterview('company',this)">🏢 Company Q&A</button>
+  </div>
+  <div id="interview-content"></div>
+</div>
+
+<!-- ═══ PROGRESS ═══ -->
+<div id="page-progress" class="page">
+  <div class="page-header">
+    <div class="section-tag">Your Stats</div>
+    <h2>Progress Dashboard</h2>
+    <p>Everything saved in your browser — no login needed.</p>
+  </div>
+
+  <div class="study-plan-card">
+    <div class="sp-header">
+      <span class="sp-icon">📅</span>
+      <div>
+        <div class="sp-title">Personalized Study Plan</div>
+        <div class="sp-sub">Enter your details to get a tailored daily schedule</div>
+      </div>
+    </div>
+    <div class="sp-inputs">
+      <div class="sp-field">
+        <label>Placement Date</label>
+        <input type="date" id="placement-date">
+      </div>
+      <div class="sp-field">
+        <label>Current Level</label>
+        <select id="current-level">
+          <option value="beginner">Beginner (new to DSA)</option>
+          <option value="basic">Basic (know arrays/strings)</option>
+          <option value="intermediate">Intermediate (done trees/graphs)</option>
+        </select>
+      </div>
+      <div class="sp-field">
+        <label>Daily Hours</label>
+        <select id="daily-hours">
+          <option value="1">1 hour</option>
+          <option value="2">2 hours</option>
+          <option value="3">3+ hours</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="generateStudyPlan()">Generate Plan</button>
+    </div>
+    <div id="study-plan-output"></div>
+  </div>
+
+  <div class="progress-stats-grid" id="progress-stats"></div>
+
+  <div class="streak-card">
+    <div class="streak-card-header">
+      <span class="streak-title">🔥 Activity Streak</span>
+      <span id="streak-days-label" class="streak-days">0 days</span>
+    </div>
+    <div class="streak-grid" id="streak-grid"></div>
+    <div class="streak-legend">Solve at least 1 problem/day to keep your streak alive</div>
+  </div>
+
+  <div class="breakdown-section">
+    <h3>Topic Breakdown</h3>
+    <div id="topic-breakdown"></div>
+  </div>
+
+  <div class="badges-section">
+    <h3>Badges & Achievements</h3>
+    <div class="badges-grid" id="badges-grid"></div>
+  </div>
+
+  <div class="leaderboard-section">
+    <h3>🏆 Leaderboard</h3>
+    <div class="lb-note">Based on problems solved & streak. Updates as you solve more.</div>
+    <div id="leaderboard"></div>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetAll()">Reset All Progress</button>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div id="toast" class="toast"></div>
+
+<!-- IMPORTANT: api.js must come before app.js -->
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
